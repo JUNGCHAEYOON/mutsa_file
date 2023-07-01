@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_margin="20dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:id="@+id/textViewRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <Button
+        android:id="@+id/buttonRowNewMemo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="메모등록"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonRowChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="수정"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonRowDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="삭제"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:visibility="gone" />
+</LinearLayout>
