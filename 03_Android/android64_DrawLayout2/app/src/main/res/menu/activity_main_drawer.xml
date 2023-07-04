@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/firstFragment"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="첫 번째 프래그먼트" />
+        <item
+            android:id="@+id/secondFragment"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="두 번째 프래그먼트" />
+        <item
+            android:id="@+id/thirdFragment"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="세 번째 프래그먼트" />
+    </group>
+</menu>

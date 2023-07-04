@@ -1,0 +1,70 @@
+[ activity_main.xml ]
+
+activity_main.xml은 include와 NaviationView로 구성되어 있다.
+
+include는 layout/app_bar_main.xml 파일이 설정되어 있다.
+NavigationView는 좌측에서 메뉴가 나타날 수 있도록 해주는 View이다.
+
+NavigationView의 headerLayout은 layout/nav_header_main.xml이 설정되어 있고
+menu 에는 menu/activity_main_drawer.xml이 설정되어 있다
+
+[ app_bar_main.xml ]
+
+여기서 중요한 부분은 Toolbar와 include 부분이다.
+★화면의 Toolbar에 관련된 설정을 하겠다면 이 부분에서 해주면 된다.
+
+include에는 layout/content_main.xml 파일이 설정되어 있다.
+
+[ content_main.xml ]
+
+NavHostFragment 가 배치되어 있다. 보여주고자 하는 Fragment들을 설정하는 부분으로
+코드에서 작업을 해야 한다.
+
+NavHostFragment 의 navGraph 속성에 보여줄 Fragment들이 등록되어 있는 xml 파일을 설정한다.
+
+[ nav_header_main.xml ]
+좌측에서 나타나는 NavigationView의 상단 부분에 해당한다.
+★이 부분은 애플리케이션에 맞게 자유롭게 구성해주면 된다
+
+[ menu/activity_main_drawer.xml ]
+좌측에서 나타나는 NavagationView의 하단 부분에 해당하다.
+★메뉴 파일을 이용해 사용자가 선택할 화면 목록을 구성하게 된다.
+
+[ values/strings.xml ]
+★보여줄 프래그먼트의 이름을 설정한다.
+
+----------------------------------------------------------------------
+
+
+[1. nav_header_main.xml 작업]
+
+이 부분은 로그인한 사용자와 관련된 정보를 여주는 부분이다.
+보통 로그인한 사용자에 따라 표시되는 데이터가 다르기 때문에
+코드로 처리해주는 것이 일반적이다.
+
+MainActivity.kt 의 Step01
+
+[2. 사용할 Fragment 들을 만들어준다 ]
+
+[3. values/strings.xml 작업]
+각 프래그먼트의 이름으로 사용할 문자열을 등록해준다
+
+[4. navigation/mobile_navigation.xml 작업]
+사용할 프래그먼트들을 설정해준다.
+
+[5. menu/activity_main_drawer.xml 작업]
+메뉴를 등록한다.
+주의!!!!!! 메뉴 항목의 id는 mobile_navigation.xml에 등록한
+프래그먼트들의 id와 일치해야 한다.
+사용자가 선택한 메뉴의 id와 동일한 id로 등록되어 있는 프래그먼트가 나타난다.
+
+[6. MainActivity.kt 작업]
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+
+            ), drawerLayout
+        )
+
+        위의 코드에서 setOf 에 메뉴의 item id를 순서대로 작성해준다.
+

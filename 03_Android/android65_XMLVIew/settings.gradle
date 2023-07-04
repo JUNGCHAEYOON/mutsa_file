@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "android65_XMLVIew"
+rootProject.name = "android65_XMLView"
 include ':app'
