@@ -1,5 +1,6 @@
 package com.test.android_homework2_memoapp.database
 
+import android.content.ContentValues
 import android.content.Context
 import com.test.android_homework2_memoapp.Memo
 
@@ -70,14 +71,24 @@ class DAO {
         }
 
         fun updateData(context : Context, obj : Memo){
-            val sql = """update MemoTable
-                | set title=?, date=?, content=?
-                | where idx=?
-            """.trimMargin()
+//            val sql = """update MemoTable
+//                | set title=?, date=?, content=?
+//                | where idx=?
+//            """.trimMargin()
+//
+//            val args = arrayOf(obj.title, obj.date, obj.content)
+//            val dbHelper = DBHelper(context)
+//            dbHelper.writableDatabase.execSQL(sql, args)
+//            dbHelper.close()
 
-            val args = arrayOf(obj.title, obj.date, obj.content)
+            val cv = ContentValues()
+            cv.put("title",obj.title)
+            cv.put("date",obj.date)
+            cv.put("content",obj.content)
+            val condition = "idx = ?"
+            val args = arrayOf("${obj.idx}")
             val dbHelper = DBHelper(context)
-            dbHelper.writableDatabase.execSQL(sql, args)
+            dbHelper.writableDatabase.update("MemoTable",cv,condition,args)
             dbHelper.close()
         }
 

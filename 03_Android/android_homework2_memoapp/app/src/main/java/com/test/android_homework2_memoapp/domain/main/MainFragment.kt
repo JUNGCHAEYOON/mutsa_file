@@ -96,8 +96,7 @@ class MainFragment : Fragment() {
             holder.tvRowMainTitle.text = memoList[position].title
 
             holder.llRowMain.setOnClickListener {
-                val idx = memoList[position].idx
-                MainActivity.nowIdx = idx
+                MainActivity.nowIdx = memoList[position].idx
                 mainActivity.replaceFragment(MainActivity.SHOW_FRAGMENT,true,true)
             }
         }

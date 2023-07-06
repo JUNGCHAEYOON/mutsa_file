@@ -45,6 +45,7 @@ class AddFragment : Fragment() {
                         val date = sdf.format(Date())
 
                         val memo = Memo(0,title = title,date = date,content = content)
+                        // insert 시에는 idx 를 0 으로 줘도 알아서 순서대로 indexing
                         DAO.insertData(mainActivity,memo)
                     }
 

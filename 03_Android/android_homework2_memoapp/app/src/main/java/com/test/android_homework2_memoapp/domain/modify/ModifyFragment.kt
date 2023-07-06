@@ -31,28 +31,40 @@ class ModifyFragment : Fragment() {
         memo = DAO.selectData(mainActivity,MainActivity.nowIdx)
 
         fragmentModifyBinding.run{
+            etModifyTitle.setText(memo.title)
+            etModifyContent.setText(memo.content)
+            etModifyTitle.requestFocus()
+
             tbModify.run{
                 title = "메모수정"
                 inflateMenu(R.menu.menu_modify)
 
                 // 저장버튼
                 setOnMenuItemClickListener {
-                    // 저장하기
-                    run{
-                        val idx = memo.idx
-                        val title = etModifyTitle.text.toString()
-                        val content = etModifyContent.text.toString()
-                        // 날짜
-                        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                        val date = sdf.format(Date())
+                    when(it.itemId){
+                        R.id.item_modify_modify->{
+                            // 저장하기
+                            run{
+                                val idx = memo.idx
+                                val title = etModifyTitle.text.toString()
+                                val content = etModifyContent.text.toString()
+                                // 날짜
+                                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                val date = sdf.format(Date())
 
-                        val newMemo = Memo(idx = idx,title = title,date = date,content = content)
-                        DAO.updateData(mainActivity,newMemo)
+                                val newMemo = Memo(idx = idx,title = title,date = date,content = content)
+                                DAO.updateData(mainActivity,newMemo)
+                            }
+
+                            // 쇼프래그먼트로 돌아가기
+                            mainActivity.replaceFragment(MainActivity.SHOW_FRAGMENT,true,true)
+                            false
+                        }
+
+                        else -> {
+                            false
+                        }
                     }
-
-                    // 쇼프래그먼트로 돌아가기
-                    mainActivity.replaceFragment(MainActivity.SHOW_FRAGMENT,true,true)
-                    false
                 }
 
                 // 백버튼
@@ -61,10 +73,6 @@ class ModifyFragment : Fragment() {
                     mainActivity.replaceFragment(MainActivity.SHOW_FRAGMENT,true,true)
                 }
             }
-
-            etModifyTitle.setText(memo.title)
-            etModifyContent.setText(memo.content)
-            etModifyContent.requestFocus()
         }
 
         return fragmentModifyBinding.root
