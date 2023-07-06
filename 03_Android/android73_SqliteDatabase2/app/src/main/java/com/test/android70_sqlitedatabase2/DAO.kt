@@ -134,6 +134,7 @@ class DAO {
 
             val dbHelper = DBHelper(context)
             dbHelper.writableDatabase.delete("TestTable", condition, args)
+
             dbHelper.close()
         }
     }
