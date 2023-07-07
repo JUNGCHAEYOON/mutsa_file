@@ -8,9 +8,9 @@ class DBHelper(context : Context) : SQLiteOpenHelper(context, "Memo.db",null,1){
     override fun onCreate(db: SQLiteDatabase?) {
         val sql = """create Table MemoTable
             (idx integer primary key autoincrement,
-            title title not null,
+            title text not null,
             date date not null,
-            content content not null
+            content text not null
             )
         """.trimMargin()
 

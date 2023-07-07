@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_item1"
+        android:title="메뉴 항목1" />
+    <item
+        android:id="@+id/menu_item2"
+        android:title="메뉴 항목2" />
+    <item
+        android:id="@+id/menu_item3"
+        android:title="메뉴 항목3" >
+        <menu >
+            <item
+                android:id="@+id/menu_item31"
+                android:title="하위 메뉴 3-1" />
+            <item
+                android:id="@+id/menu_item32"
+                android:title="하위 메뉴 3-2" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_item4"
+        android:title="메뉴 항목4" />
+</menu>
