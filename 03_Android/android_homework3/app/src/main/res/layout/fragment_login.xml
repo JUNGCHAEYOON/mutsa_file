@@ -36,7 +36,7 @@
             android:background="@color/light_grey"
             android:ems="10"
             android:hint="비밀번호를 입력하세요."
-            android:inputType="text"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 

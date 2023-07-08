@@ -7,6 +7,8 @@ data class Category(
 )
 
 data class Memo(
+    var idx : Int,
+    var cidx : Int,
     var memoTitle : String,
     var memoContent : String
 )

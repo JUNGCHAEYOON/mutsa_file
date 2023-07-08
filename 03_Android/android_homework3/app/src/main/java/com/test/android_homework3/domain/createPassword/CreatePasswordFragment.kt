@@ -37,7 +37,7 @@ class CreatePasswordFragment : Fragment() {
                 if(pw1 != "" && pw2 != "" && pw1 == pw2){
                     val newPassword = Password(0, pw1)
                     LoginDAO.insertData(mainActivity, newPassword)
-                    mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT,true,true)
+                    mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT,false,true)
                 }else{
                     Toast.makeText(mainActivity, "다시 입력해주세요", Toast.LENGTH_SHORT).show()
                 }

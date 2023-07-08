@@ -1,0 +1,16 @@
+** category DB
+
+idx
+categoryName
+
+** Memo DB
+
+idx
+cidx (category의 idx 를 받아옴, 어떤 카테고리 속의 메모인지 구분하기위해 저장)
+memoTitle
+memoContent
+
+
+특정 카테고리 선택시 어떻게 메모리스트를 불러오는가?
+-> 선택한 카테고리의 idx == cidx 인 메모
+인 모든 메모를 불러와 mutablelist 로 리턴

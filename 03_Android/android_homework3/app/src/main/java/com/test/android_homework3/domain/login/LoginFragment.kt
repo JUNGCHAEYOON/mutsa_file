@@ -36,7 +36,7 @@ class LoginFragment : Fragment() {
 
                 // 비밀번호 검증
                 if(inputPassword == originalPassword){
-                    mainActivity.replaceFragment(MainActivity.MAIN_FRAGMENT,true,true)
+                    mainActivity.replaceFragment(MainActivity.MAIN_FRAGMENT,false,true)
                 }else{
                     Toast.makeText(mainActivity, "비밀번호가 일치하지 않습니다. 다시 입력 해주세요.", Toast.LENGTH_SHORT).show()
                 }

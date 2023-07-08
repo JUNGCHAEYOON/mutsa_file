@@ -16,6 +16,26 @@ class CategoryDAO {
             dbHelper.writableDatabase.insert("CategoryTable", null, cv)
             dbHelper.close()
         }
+        fun selectCategory(context: Context, idx : Int) : Category{
+            val dh = CategoryDBHelper(context)
+            val selection = "idx = ?"
+            val args = arrayOf("$idx")
+            val cursor = dh.writableDatabase.query("CategoryTable", null, selection, args, null, null, null)
+            cursor.moveToNext()
+
+            val idx1 = cursor.getColumnIndex("idx")
+            val idx2 = cursor.getColumnIndex("categoryName")
+
+            val idx = cursor.getInt(idx1)
+            val categoryName = cursor.getString(idx2)
+
+            val ml = mutableListOf<Memo>()
+
+            val category = Category(idx, categoryName, ml)
+
+            dh.close()
+            return category
+        }
 
         // 전체행을 다불러옴
         fun selectAllCategory(context : Context) : MutableList<Category>{
