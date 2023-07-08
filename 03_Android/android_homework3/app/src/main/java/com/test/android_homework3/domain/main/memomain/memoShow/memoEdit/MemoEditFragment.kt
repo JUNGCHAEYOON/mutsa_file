@@ -5,56 +5,65 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.test.android_homework3.MainActivity
+import com.test.android_homework3.Memo
 import com.test.android_homework3.R
+import com.test.android_homework3.database.category.MemoDAO
+import com.test.android_homework3.databinding.FragmentMemoEditBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MemoEditFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MemoEditFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var fragmentMemoEditBinding: FragmentMemoEditBinding
+    lateinit var mainActivity: MainActivity
 
+    lateinit var memo : Memo
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_memo_edit, container, false)
-    }
+        fragmentMemoEditBinding = FragmentMemoEditBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
+        memo = MemoDAO.selectMemo(mainActivity, MainActivity.memoIdx)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MemoEditFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MemoEditFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        fragmentMemoEditBinding.run{
+            tbMemoEdit.run{
+                title = "메모 수정"
+                inflateMenu(R.menu.menu_memo_edit)
+
+                // 저장버튼
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.item_memo_edit_edit->{
+                            val memoTitle = etMemoEditMemoTitle.text.toString()
+                            val memoContent = etMemoEditMemoContent.text.toString()
+                            val cidx = MainActivity.categoryIdx
+                            val idx = MainActivity.memoIdx
+
+                            val newMemo = Memo(idx, cidx, memoTitle, memoContent)
+                            MemoDAO.updateMemo(mainActivity, newMemo)
+                        }
+                    }
+                    // memoShow 로 돌아가기
+                    mainActivity.replaceFragment(MainActivity.MEMO_SHOW_FRAGMENT,false,true)
+                    false
+                }
+
+                // 백버튼
+                setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
+                setNavigationOnClickListener {
+                    mainActivity.replaceFragment(MainActivity.MEMO_SHOW_FRAGMENT,false,true)
                 }
             }
+
+            // 수정할 etv 적용
+            etMemoEditMemoTitle.setText(memo.memoTitle)
+            etMemoEditMemoContent.setText(memo.memoContent)
+
+            etMemoEditMemoTitle.requestFocus()
+        }
+
+        return fragmentMemoEditBinding.root
     }
+
 }
