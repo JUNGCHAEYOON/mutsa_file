@@ -30,7 +30,7 @@ class SplashFragment : Fragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 mainActivity.replaceFragment(MainActivity.LOGIN,false,true)
             }, 3000)
-            
+
         }
 
         return fragmentSplashBinding.root
