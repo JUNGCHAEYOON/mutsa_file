@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         activityMainBinding.run{
-            
+
+            // 레이아웃 영역
             textInputLayout.run{
                 editText?.run{
                     addTextChangedListener {
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            
+
+            // 버튼 영역, 버튼을 클릭하면 textView의 내용이 textInputLayout에 입력한 내용으로 변경
             button.run{
                 setOnClickListener {
                     // 입력한 내용을 가져온다.
