@@ -17,6 +17,7 @@ class MemoMainFragment : Fragment() {
 
     lateinit var fragmentMemoMainBinding: FragmentMemoMainBinding
     lateinit var mainActivity: MainActivity
+    lateinit var memoDataList:MutableList<MemoClass>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,14 +27,26 @@ class MemoMainFragment : Fragment() {
         fragmentMemoMainBinding = FragmentMemoMainBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
+        // 카테고리 인덱스를 추출한다.
+        val categoryIdx = arguments?.getInt("category_idx")
+
+        // 현재 카테고리에 대한 메모 데이터를 가져온다.
+        memoDataList = MemoDAO.selectAll(mainActivity, categoryIdx!!)
+
+        // 카테고리 정보를 가져온다.
+        val categoryClass = CategoryDAO.selectOne(mainActivity, categoryIdx!!)
+
         fragmentMemoMainBinding.run{
             toolbarMemoMain.run{
-                title = "카테고리 이름"
+                title = categoryClass?.categoryName
                 inflateMenu(R.menu.category_main_menu)
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.categoryMainItem1 -> {
-                            mainActivity.replaceFragment(MainActivity.MEMO_ADD_FRAGMENT, true, true)
+                            // 선택한 카테고리 번호를 번들에 담아 전달한다.
+                            val newBundle = Bundle()
+                            newBundle.putInt("category_idx", categoryIdx)
+                            mainActivity.replaceFragment(MainActivity.MEMO_ADD_FRAGMENT, true, true, newBundle)
                         }
                     }
                     false
@@ -64,7 +77,11 @@ class MemoMainFragment : Fragment() {
                 textViewRow = rowMainBinding.textViewRow
 
                 rowMainBinding.root.setOnClickListener {
-                    mainActivity.replaceFragment(MainActivity.MEMO_READ_FRAGMENT, true, true)
+                    // 사용자가 선택한 메모의 인덱스값을 전달한다.
+                    val selectedMemoIdx = memoDataList[adapterPosition].memoIdx
+                    val newBundle = Bundle()
+                    newBundle.putInt("memo_idx", selectedMemoIdx)
+                    mainActivity.replaceFragment(MainActivity.MEMO_READ_FRAGMENT, true, true, newBundle)
                 }
             }
         }
@@ -82,11 +99,11 @@ class MemoMainFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 30
+            return memoDataList.size
         }
 
         override fun onBindViewHolder(holder: MemoMainViewHolder, position: Int) {
-            holder.textViewRow.text = "메모 : $position"
+            holder.textViewRow.text = memoDataList[position].memoSubject
         }
     }
 }

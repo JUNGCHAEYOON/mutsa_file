@@ -97,6 +97,11 @@ class PasswordFragment : Fragment() {
             builder.setTitle("설정 완료")
             builder.setMessage("비빌번호 설정이 완료되었습니다")
             builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+
+                // 사용자가 설정한 비빌번호를 저장한다.
+                val passwordClass = PasswordClass(0, str1)
+                PasswordDAO.insert(mainActivity, passwordClass)
+
                 mainActivity.replaceFragment(MainActivity.LOGIN_FRAGMENT, false, true)
             }
             builder.show()

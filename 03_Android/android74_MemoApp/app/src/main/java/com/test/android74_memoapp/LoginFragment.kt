@@ -49,6 +49,9 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding.run{
             val str1 = loginPw.text.toString()
 
+            // 데이터 베이스에서 비빌번호를 가져온다.
+            val passwordClass = PasswordDAO.selectOne(mainActivity, 1)
+
             if(str1.length == 0){
                 val builder = AlertDialog.Builder(mainActivity)
                 builder.setTitle("로그인 오류")
@@ -57,6 +60,20 @@ class LoginFragment : Fragment() {
                     mainActivity.showSoftInput(loginPw, 150)
                 }
                 builder.show()
+                return
+            }
+
+            // 입력한 비빌번호와 저장된 비빌번호가 다르다면..
+            if(str1 != passwordClass?.passwordData){
+                val builder = AlertDialog.Builder(mainActivity)
+                builder.setTitle("비빌번호 오류")
+                builder.setMessage("비빌번호를 잘못 입력하였습니다")
+                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                    loginPw.setText("")
+                    mainActivity.showSoftInput(loginPw, 200)
+                }
+                builder.show()
+                return
             }
 
             val builder = AlertDialog.Builder(mainActivity)

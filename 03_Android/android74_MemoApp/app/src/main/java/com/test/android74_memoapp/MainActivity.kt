@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val MEMO_MAIN_FRAGMENT = "MemoMainFragment"
         val MEMO_ADD_FRAGMENT = "MemoAddFragment"
         val MEMO_READ_FRAGMENT = "MemoReadFragment"
+        val MEMO_MODIFY_FRAGMENT = "MemoModifyFragment"
     }
 
     // 키보드 관리자
@@ -47,11 +49,30 @@ class MainActivity : AppCompatActivity() {
 
         inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
-        replaceFragment(CATEGORY_MAIN_FRAGMENT, false, false)
+        // 비빌번호 설정 여부에 따라 처음 보여줄 프레그먼트를 다르게 지정한다.
+        //replaceFragment(PASSWORD_FRAGMENT, false, false)
+
+        // 저장된 비빌번호를 가져온다.
+        val passwordList = PasswordDAO.selectAll(this)
+
+        // 설정된 비밀번호가 없다면
+        if(passwordList.size == 0){
+            replaceFragment(PASSWORD_FRAGMENT, false, false)
+        }
+        // 설정된 비밀번호가 있다면
+        else {
+            replaceFragment(LOGIN_FRAGMENT, false, false)
+        }
+
+
+        val dbHelper = DBHelper(this)
+        dbHelper.writableDatabase
+        dbHelper.close()
     }
 
     // 지정한 Fragment를 보여주는 메서드
-    fun replaceFragment(name:String, addToBackStack:Boolean, animate:Boolean){
+    fun replaceFragment(name:String, addToBackStack:Boolean, animate:Boolean, arguments:Bundle?=null){
+        SystemClock.sleep(200)
         // Fragment 교체 상태로 설정한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         // 새로운 Fragment를 담을 변수
@@ -62,8 +83,12 @@ class MainActivity : AppCompatActivity() {
             MEMO_MAIN_FRAGMENT -> MemoMainFragment()
             MEMO_ADD_FRAGMENT -> MemoAddFragment()
             MEMO_READ_FRAGMENT -> MemoReadFragment()
+            MEMO_MODIFY_FRAGMENT -> MemoModifyFragment()
             else -> Fragment()
         }
+
+        // 현재 프래그먼트에 번들을 설정해준다.
+        newFragment.arguments = arguments
 
         if(newFragment != null) {
 
@@ -98,6 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     // Fragment를 BackStack에서 제거한다.
     fun removeFragment(name:String){
+        SystemClock.sleep(200)
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
@@ -113,8 +139,26 @@ class MainActivity : AppCompatActivity() {
     // 키보드를 내려주는 메서드
     fun hideSoftInput(){
         if(currentFocus != null){
-            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
+
+            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 }
+
+// 테이블의 데이터를 담을 클래스들
+data class PasswordClass(var passwordIdx:Int, var passwordData:String)
+data class CategoryClass(var categoryIdx:Int, var categoryName:String)
+data class MemoClass(var memoIdx:Int, var memoSubject:String, var memoText:String, var memoDate:String, var memoCategoryIdx:Int)
+
+
+
+
+
+
+
+
+
+
+
+
 
