@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 버튼을 누른 상태 -->
+    <item android:state_pressed="true" android:drawable="@drawable/btn1"/>
+    <!-- 그외의 모든상태 -->
+    <item android:drawable="@drawable/btn2"/>
+</selector>

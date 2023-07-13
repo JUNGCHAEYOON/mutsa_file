@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    oneshot : true를 설정해주면 반복되지 않는다.
+-->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="true">
+
+    <!-- drawable : 보여줄 이미지 -->
+    <!-- duration : 현재 이미지를 보여줄 시간 -->
+    <item android:drawable="@drawable/ani_img1" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img2" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img3" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img4" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img5" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img6" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img7" android:duration="100"/>
+    <item android:drawable="@drawable/ani_img8" android:duration="100"/>
+</animation-list>
