@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.test.android86_sensor'
+    namespace 'kr.co.softcampus.android86_sensor'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.test.android86_sensor"
+        applicationId "kr.co.softcampus.android86_sensor"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -30,8 +30,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    viewBinding{
+    viewBinding {
         enabled = true
     }
 }
