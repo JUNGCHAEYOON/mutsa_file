@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.test.mini01_lbs02'
+    namespace 'kr.co.softcampus.mini01_lbs02'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.test.mini01_lbs02"
+        applicationId "kr.co.softcampus.mini01_lbs02"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -30,6 +30,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -41,4 +44,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 }

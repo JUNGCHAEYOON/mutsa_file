@@ -27,4 +27,7 @@
             android:value="AIzaSyDva2xUaxAQfg5Ug9cmuMJAxd7j-viNJPI"/>
     </application>
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 </manifest>

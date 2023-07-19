@@ -1,23 +1,25 @@
-package com.test.mini01_lbs01
+package kr.co.softcampus.mini01_lbs02
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.window.SplashScreen
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.test.mini01_lbs01.databinding.ActivityMainBinding
+import kr.co.softcampus.mini01_lbs02.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,50 +32,50 @@ class MainActivity : AppCompatActivity() {
     )
 
     // 위치 측정 리스너
-    var myLocationListener : LocationListener? = null
+    var myLocationListener:LocationListener? = null
 
     // 구글 지도 객체를 담을 변수
-    lateinit var mainGoogleMap: GoogleMap
+    lateinit var mainGoogleMap:GoogleMap
 
     // 현재 사용자 위치에 표시되는 마커
-    var myMarker : Marker? = null
-
+    var myMarker:Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 스플래시 화면 실행(setContenView보다 먼저)
+        // SplashScreen
         installSplashScreen()
 
-        // 지도 실행
-        MapsInitializer.initialize(this, MapsInitializer.Renderer.LATEST, null)
+        // 구글 지도 셋팅
+        MapsInitializer.initialize(this, MapsInitializer.Renderer.LATEST, null);
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        // 메인뷰 생성
         activityMainBinding.run{
             toolbarMain.run{
                 title = "LBSProject"
                 inflateMenu(R.menu.main_menu)
-
                 setOnMenuItemClickListener {
-                    when(it.itemId){
-                        R.id.main_menu_location->{
+
+                    when(it?.itemId){
+                        // 현재 위치 메뉴
+                        R.id.main_menu_location ->{
+                            // 현재 위치를 측정하고 지도를 갱신한다.
                             getMyLocation()
                         }
                     }
+
                     false
                 }
             }
         }
 
-        // 권한
+        // 권한을 확인한다.
         requestPermissions(permissionList, 0)
 
-        // 구글지도를 보여주는 MapFragment 객체를 추출한다.
+        // 구글 지도를 보여주는 MapFragment 객체를 추출한다.
         val supportMapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-
         // 구글 지도 사용 준비가 완료되면 반응하는 리스너를 등록한다.
         supportMapFragment. getMapAsync{
             // Toast.makeText(this, "구글 지도가 준비되었습니다", Toast.LENGTH_SHORT).show()
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     // 매개변수로 들어오는 위도 경도값을 통해 구글 지도를 해당 위치로 이동시킨다.
     fun setMyLocation(location: Location){
         // 위치 측정을 중단한다.
@@ -185,3 +188,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

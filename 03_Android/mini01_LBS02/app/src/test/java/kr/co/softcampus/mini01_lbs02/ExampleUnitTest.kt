@@ -1,4 +1,4 @@
-package com.test.mini01_lbs02
+package kr.co.softcampus.mini01_lbs02
 
 import org.junit.Test
 

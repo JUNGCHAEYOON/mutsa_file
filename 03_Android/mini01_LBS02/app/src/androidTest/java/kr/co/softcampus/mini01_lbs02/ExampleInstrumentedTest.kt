@@ -1,4 +1,4 @@
-package com.test.mini01_lbs02
+package kr.co.softcampus.mini01_lbs02
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.test.mini01_lbs02", appContext.packageName)
+        assertEquals("kr.co.softcampus.mini01_lbs02", appContext.packageName)
     }
 }
