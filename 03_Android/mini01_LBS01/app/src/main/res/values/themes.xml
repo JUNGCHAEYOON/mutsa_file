@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Mini01_LBS01" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+<!--         <item name="colorPrimary">@color/white</item>-->
+    </style>
+
+    <style name="Theme.Mini01_LBS01" parent="Base.Theme.Mini01_LBS01" />
+
+    <style name = "AppTheme.Starting" parent="Theme.SplashScreen">
+<!--        Splash Screen의 배경을 설정한다. 색상값, 이미지 등을 사용할 수 있다.-->
+        <item name = "windowSplashScreenBackground">@color/white</item>
+<!--        Splash Screen 에서 사용할 아이콘을 설정한다-->
+        <item name = "windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+<!--        Splash Screen 을 보여줄 시간을 설정한다. 최대 1000ms -->
+        <item name = "windowSplashScreenAnimationDuration">1000</item>
+<!--        Splash Screen을 보여주고 나서 다음에 나올 화면의 테마를 설정해준다.-->
+        <item name = "postSplashScreenTheme">@style/Base.Theme.Mini01_LBS01</item>
+<!--        로고 아래에 배치될 브랜드 이미지를 설정한다-->
+        <item name="android:windowSplashScreenBrandingImage" tools:targetApi ="s">@drawable/ic_launcher_background</item>
+    </style>
+</resources>
