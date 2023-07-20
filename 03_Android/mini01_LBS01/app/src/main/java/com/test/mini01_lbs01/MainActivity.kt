@@ -40,18 +40,17 @@ class MainActivity : AppCompatActivity() {
     )
 
     // 위치 측정 리스너
-    var myLocationListener : LocationListener? = null
+    var myLocationListener:LocationListener? = null
 
     // 구글 지도 객체를 담을 변수
-    lateinit var mainGoogleMap: GoogleMap
+    lateinit var mainGoogleMap:GoogleMap
 
     // 현재 사용자 위치에 표시되는 마커
-    var myMarker : Marker? = null
+    var myMarker:Marker? = null
 
     // 사용자의 현재 위치
     lateinit var userLocation:Location
 
-    // 다이얼로그 데이터
     val dialogData = arrayOf(
         "accounting", "airport", "amusement_park",
         "aquarium", "art_gallery", "atm", "bakery",
@@ -77,29 +76,35 @@ class MainActivity : AppCompatActivity() {
         "transit_station", "travel_agency", "university", "eterinary_care","zoo"
     )
 
+    // 데이터를 담을 리스트
+    val latitudeList = mutableListOf<Double>()
+    val longitutdeList = mutableListOf<Double>()
+    val nameList = mutableListOf<String>()
+    val vicinityList = mutableListOf<String>()
+    val markerList = mutableListOf<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 스플래시 화면 실행(setContenView보다 먼저)
+        // SplashScreen
         installSplashScreen()
 
-        // 지도 실행
-        MapsInitializer.initialize(this, MapsInitializer.Renderer.LATEST, null)
+        // 구글 지도 셋팅
+        MapsInitializer.initialize(this, MapsInitializer.Renderer.LATEST, null);
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        // 메인뷰 생성
         activityMainBinding.run{
             toolbarMain.run{
                 title = "LBSProject"
                 inflateMenu(R.menu.main_menu)
-
                 setOnMenuItemClickListener {
-                    when(it.itemId){
-                        // 현재위치
-                        R.id.main_menu_location->{
+
+                    when(it?.itemId){
+                        // 현재 위치 메뉴
+                        R.id.main_menu_location ->{
+                            // 현재 위치를 측정하고 지도를 갱신한다.
                             getMyLocation()
                         }
                         // 장소 종류 선택
@@ -108,10 +113,18 @@ class MainActivity : AppCompatActivity() {
                             builder.setTitle("장소 종류 선택")
                             builder.setNegativeButton("취소", null)
                             builder.setNeutralButton("초기화"){ dialogInterface: DialogInterface, i: Int ->
-
+                                // 리스트들을 초기화한다.
+                                latitudeList.clear()
+                                longitutdeList.clear()
+                                nameList.clear()
+                                vicinityList.clear()
+                                for(marker in markerList){
+                                    marker.remove()
+                                }
+                                markerList.clear()
                             }
                             builder.setItems(dialogData){ dialogInterface: DialogInterface, i: Int ->
-                                thread{
+                                thread {
                                     // 접속할 주소
                                     val location = "${userLocation.latitude},${userLocation.longitude}"
                                     val radius = 50000
@@ -119,14 +132,35 @@ class MainActivity : AppCompatActivity() {
                                     val type = dialogData[i]
                                     val key = "AIzaSyCtLYx5dHAc-OPld70vuocw6Yewmjcnibw"
                                     val site = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=${radius}&language=${language}&type=${type}&key=${key}"
-                                    //Log.d("lbs app", site)
+
+                                    runOnUiThread {
+                                        // 리스트들을 초기화한다.
+                                        latitudeList.clear()
+                                        longitutdeList.clear()
+                                        nameList.clear()
+                                        vicinityList.clear()
+                                        for(marker in markerList){
+                                            marker.remove()
+                                        }
+                                        markerList.clear()
+                                    }
+
+                                    // Log.d("lbs app", site)
 
                                     // 다음 페이지의 토큰을 담을 변수
                                     var nextToken:String? = null
 
                                     do {
+                                        // SystemClock.sleep(3000)
+                                        // 만약 nextToken이 null이 아니라면 주소 뒤에 붙혀준다.
+                                        val site2 = if(nextToken != null){
+                                            "${site}&pagetoken=${nextToken}"
+                                        } else {
+                                            site
+                                        }
+
                                         // 요청
-                                        val url = URL(site)
+                                        val url = URL(site2)
                                         val httpURLConnection = url.openConnection() as HttpURLConnection
                                         val inputStreamReader = InputStreamReader(httpURLConnection.inputStream)
                                         val bufferedReader = BufferedReader(inputStreamReader)
@@ -169,30 +203,60 @@ class MainActivity : AppCompatActivity() {
                                                 val name = resultObject.getString("name")
                                                 // 주소
                                                 val vicinity = resultObject.getString("vicinity")
-                                                Log.d("map app", lat.toString())
-                                                Log.d("map app", lng.toString())
-                                                Log.d("map app", name)
-                                                Log.d("map app", vicinity)
-                                                Log.d("map app", "-----------------------")
+//                                                Log.d("map app", lat.toString())
+//                                                Log.d("map app", lng.toString())
+//                                                Log.d("map app", name)
+//                                                Log.d("map app", vicinity)
+//                                                Log.d("map app", "-----------------------")
+
+                                                // 데이터를 담아준다.
+                                                latitudeList.add(lat)
+                                                longitutdeList.add(lng)
+                                                nameList.add(name)
+                                                vicinityList.add(vicinity)
                                             }
                                         }
+
+                                        // nextToken이 있다면
+                                        if(root.has("next_page_token")){
+                                            nextToken = root.getString("next_page_token")
+                                        } else {
+                                            nextToken = null
+                                        }
+
                                     }while(nextToken != null)
+
+                                    runOnUiThread {
+                                        // 지도에 마커를 표시한다.
+                                        // 데이터의 수 만큼 반복한다.
+                                        for(idx in 0 until latitudeList.size){
+                                            // 마커를 찍어준다.
+                                            val markerOptions = MarkerOptions()
+                                            val loc = LatLng(latitudeList[idx], longitutdeList[idx])
+                                            markerOptions.position(loc)
+                                            markerOptions.title(nameList[idx])
+                                            markerOptions.snippet(vicinityList[idx])
+
+                                            val marker = mainGoogleMap.addMarker(markerOptions)
+                                            markerList.add(marker!!)
+                                        }
+                                    }
                                 }
                             }
                             builder.show()
                         }
                     }
+
                     false
                 }
             }
         }
 
-        // 권한
+        // 권한을 확인한다.
         requestPermissions(permissionList, 0)
 
-        // 구글지도를 보여주는 MapFragment 객체를 추출한다.
+        // 구글 지도를 보여주는 MapFragment 객체를 추출한다.
         val supportMapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-
         // 구글 지도 사용 준비가 완료되면 반응하는 리스너를 등록한다.
         supportMapFragment. getMapAsync{
             // Toast.makeText(this, "구글 지도가 준비되었습니다", Toast.LENGTH_SHORT).show()
@@ -211,8 +275,6 @@ class MainActivity : AppCompatActivity() {
 
             // 확대 축소 버튼을 표시한다.
             it.uiSettings.isZoomControlsEnabled = true
-
-            it.uiSettings.isRotateGesturesEnabled = true
 
             // 맵타입
             // it.mapType = GoogleMap.MAP_TYPE_NONE
@@ -244,9 +306,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     // 매개변수로 들어오는 위도 경도값을 통해 구글 지도를 해당 위치로 이동시킨다.
     fun setMyLocation(location: Location){
-        //측정된 사용자의 현재위치
+        // 측정된 사용자의 현재 위치를 담아준다.
         userLocation = location
 
         // 위치 측정을 중단한다.
@@ -282,7 +345,7 @@ class MainActivity : AppCompatActivity() {
             myMarker?.remove()
             myMarker = null
         }
-         myMarker = mainGoogleMap.addMarker(markerOptions)
+        myMarker = mainGoogleMap.addMarker(markerOptions)
     }
 
     fun getMyLocation(){
