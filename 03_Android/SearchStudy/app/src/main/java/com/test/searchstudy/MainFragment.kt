@@ -122,8 +122,7 @@ class MainFragment : Fragment() {
             return fragmentMainBinding.root
         }
     }
-    inner class RecyclerAdapterClass :
-        RecyclerView.Adapter<RecyclerAdapterClass.ViewHolderClass>() {
+    inner class RecyclerAdapterClass : RecyclerView.Adapter<RecyclerAdapterClass.ViewHolderClass>() {
 
         // RecyclerView의 Row 하나가 가지고 있는 View들의 객체를 가지고 있는 Holder Class
         // 주 생성자로 ViewBinding 객체를 받는다.
