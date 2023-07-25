@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val splashScreen = installSplashScreen()
-        // splashScreenCustomizing(splashScreen)
+         splashScreenCustomizing(splashScreen)
 
         // SystemClock.sleep(3000)
 
