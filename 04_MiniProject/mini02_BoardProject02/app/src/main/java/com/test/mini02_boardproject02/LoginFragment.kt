@@ -35,6 +35,15 @@ class LoginFragment : Fragment() {
                     mainActivity.replaceFragment(MainActivity.JOIN_FRAGMENT, true, null)
                 }
             }
+
+            // 로그인 버튼
+            buttonLoginSubmit.run{
+                setOnClickListener {
+                    // 사용자 데이터 값을 넘겨줄 번들 설정
+                    val bundle = Bundle()
+                    mainActivity.replaceFragment(MainActivity.MAIN_FRAGMENT,false, bundle)
+                }
+            }
         }
 
         return fragmentLoginBinding.root
