@@ -10,7 +10,6 @@ import com.test.mini02_boardproject02.databinding.FragmentAddUserInfoBinding
 
 class AddUserInfoFragment : Fragment() {
 
-
     lateinit var fragmentAddUserInfoBinding: FragmentAddUserInfoBinding
     lateinit var mainActivity: MainActivity
 
@@ -32,7 +31,6 @@ class AddUserInfoFragment : Fragment() {
                     mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
                 }
             }
-
             // 가입 완료 버튼
             buttonAddUserInfoSubmit.run{
                 setOnClickListener {
@@ -44,6 +42,5 @@ class AddUserInfoFragment : Fragment() {
 
         return fragmentAddUserInfoBinding.root
     }
-
 
 }
