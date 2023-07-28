@@ -1,6 +1,7 @@
 package com.test.mini02_boardproject02
 
 import android.os.Bundle
+import android.os.SystemClock
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -112,6 +113,9 @@ class BoardMainFragment : Fragment() {
                     false
                 }
             }
+
+            // 첫 화면이 나오도록 한다.
+            replaceFragment(POST_LIST_FRAGMENT, false, false, null)
         }
 
         return fragmentBoardMainBinding.root
