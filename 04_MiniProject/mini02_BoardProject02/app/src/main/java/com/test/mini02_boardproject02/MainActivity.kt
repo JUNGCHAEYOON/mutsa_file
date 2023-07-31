@@ -4,52 +4,22 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import android.view.inputmethod.InputMethodManager
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.test.mini02_boardproject02.databinding.ActivityMainBinding
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-//    다음 화면으로 넘어가지 못할 조건들을 설정
-//
-//    LoginFragment
-//    1. 처음 시작시 포커스가 주어지는 입력 요소는 없다.
-//    2. 로그인 버튼을 눌렀을 경우 아이디나 비밀번호 입력 요소에
-//    입력되어 있는 것이 없을 경우 입력 오류
-//    3. 비빌번호 입력 요소에 포커스가 있을 경우 엔터키를 누렀을 경우
-//    아이디나 비밀번호 입력 요소에 입력되어 있는 것이 없을 경우 입력 오류
-//
-//    JoinFragment
-//    1. 처음 시작시 아이디 입력요소에 포커스를 준다.
-//    2. 다음 버튼을 누르거나 비밀번호 확인 칸에서 엔터키를 눌렀을 경우'
-//    2-1. 비어 있는 입력 요소가 있다면 입력 오류
-//    2-2. 비밀번호와 비밀번호 확인이 다르면 입력 오류
-//
-//    AddUserInfoFragment
-//    1. 처음 시작시 닉네임 입력 요소에 포커스를 준다.
-//    2. 가입 완료 버튼을 누르면 닉네임과 나이 칸이 비어 있다면 입력 오류
-//    3. 체크 박스 관련 작업은 저랑 같이 할게요~
-//
-//    ModifyUserFragment
-//    1. 처음 시작시 포커스를 주지 않는다.
-//    2. 비밀번호와 비밀번화 확인은 서로 다를 때만 입력 오류
-//    3. 닉네임과 나이는 비어있을 경우 입력 오류
-//    4. 수정 완료 버튼을 눌렀을 때 위의 처리를 해준다.
-//
-//    PostWriteFragment
-//    1. 처음 시작시 제목에 포커스를 준다.
-//    2. 제목과 내용이 비어 있으면 입력 오류
-//
-//    PostModifyFragment
-//    1. 처음 시작시 포커스를 주지 않는다.
-//    2. Done 메뉴를 눌렀을 때 제목과 내용이 비어 있으면 입력 오류
 
     lateinit var activityMainBinding: ActivityMainBinding
 
@@ -181,4 +151,38 @@ class MainActivity : AppCompatActivity() {
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
+
+    // 입력 요소에 포커스를 주는 메서드
+    fun showSoftInput(view:View){
+        view.requestFocus()
+
+        val inputMethodManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        thread {
+            SystemClock.sleep(200)
+            inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
 }
+
+data class UserClass(
+    var userIdx : Long,
+    var userId: String,
+    var userPw: String,
+    var userNickname: String,
+    var userAge: Long,
+    var hobby1: Boolean,
+    var hobby2: Boolean,
+    var hobby3: Boolean,
+    var hobby4: Boolean,
+    var hobby5: Boolean,
+    var hobby6: Boolean
+)
+
+
+
+
+
+
+
+
+
