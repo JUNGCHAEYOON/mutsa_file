@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         val POST_MODIFY_FRAGMENT = "PostModifyFragment"
     }
 
+    // 로그인한 사용자의 정보를 담을 객체
+    lateinit var loginUserClass:UserClass
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

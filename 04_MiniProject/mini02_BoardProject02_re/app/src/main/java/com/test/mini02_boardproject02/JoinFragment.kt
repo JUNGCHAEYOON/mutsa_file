@@ -108,8 +108,11 @@ class JoinFragment : Fragment() {
                 return
             }
 
+            val newBundle = Bundle()
+            newBundle.putString("joinUserId", joinUserId)
+            newBundle.putString("joinUserPw", joinUserPw)
 
-            mainActivity.replaceFragment(MainActivity.ADD_USER_INFO_FRAGMENT, true, null)
+            mainActivity.replaceFragment(MainActivity.ADD_USER_INFO_FRAGMENT, true, newBundle)
         }
     }
 }

@@ -67,9 +67,49 @@ class AddUserInfoFragment : Fragment() {
                         return@setOnClickListener
                     }
 
+                    // 사용자 인덱스 값을 가져온다.
+                    val database = FirebaseDatabase.getInstance()
+                    val userIdxRef = database.getReference("UserIdx")
 
-                    mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
-                    mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                    userIdxRef.get().addOnCompleteListener {
+                        // 현재의 사용자 순서값을 가져온다.
+                        var userIdx = it.result.value as Long
+
+                        // 저장할 데이터들을 담는다.
+                        val joinUserId = arguments?.getString("joinUserId")!!
+                        val joinUserPw = arguments?.getString("joinUserPw")!!
+
+                        // 사용자 인덱스 번호 1 증가
+                        userIdx++
+
+                        val userClass = UserClass(userIdx, joinUserId, joinUserPw, joinUserNickName,
+                            joinUserAge.toLong(),
+                            materialCheckBoxAddUserInfoHobby1.isChecked,
+                            materialCheckBoxAddUserInfoHobby2.isChecked,
+                            materialCheckBoxAddUserInfoHobby3.isChecked,
+                            materialCheckBoxAddUserInfoHobby4.isChecked,
+                            materialCheckBoxAddUserInfoHobby5.isChecked,
+                            materialCheckBoxAddUserInfoHobby6.isChecked
+                        )
+
+                        // 저장한다.
+                        val userDataRef = database.getReference("UserData")
+
+                        userDataRef.push().setValue(userClass).addOnCompleteListener {
+
+                            userIdxRef.get().addOnCompleteListener {
+
+                                // Log.d("abc", userIdx.toString())
+
+                                it.result.ref.setValue(userIdx)
+
+                                Snackbar.make(fragmentAddUserInfoBinding.root, "가입이 완료되었습니다", Snackbar.LENGTH_SHORT).show()
+
+                                mainActivity.removeFragment(MainActivity.ADD_USER_INFO_FRAGMENT)
+                                mainActivity.removeFragment(MainActivity.JOIN_FRAGMENT)
+                            }
+                        }
+                    }
                 }
             }
 

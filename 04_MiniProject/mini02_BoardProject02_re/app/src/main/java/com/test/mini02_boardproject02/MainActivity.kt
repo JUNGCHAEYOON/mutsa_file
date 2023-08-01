@@ -8,6 +8,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         val POST_READ_FRAGMENT = "PostReadFragment"
         val POST_MODIFY_FRAGMENT = "PostModifyFragment"
     }
+
+    // 로그인한 사용자의 정보를 담을 객체
+    lateinit var loginUserClass:UserClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,7 +168,18 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-
+// 사용자 정보를 담을 클래스
+data class UserClass(var userIdx:Long,
+                     var userId:String,
+                     var userPw:String,
+                     var userNickname: String,
+                     var userAge:Long,
+                     var hobby1:Boolean,
+                     var hobby2:Boolean,
+                     var hobby3:Boolean,
+                     var hobby4:Boolean,
+                     var hobby5:Boolean,
+                     var hobby6:Boolean)
 
 
 
