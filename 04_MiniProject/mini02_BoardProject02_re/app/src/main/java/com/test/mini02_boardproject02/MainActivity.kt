@@ -39,6 +39,11 @@ class MainActivity : AppCompatActivity() {
 
     // 로그인한 사용자의 정보를 담을 객체
     lateinit var loginUserClass:UserClass
+    
+    // 게시판 종류
+    val boardTypeList = arrayOf(
+        "자유게시판", "유머게시판", "질문게시판", "스포츠게시판"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
