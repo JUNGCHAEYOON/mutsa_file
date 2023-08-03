@@ -1,12 +1,12 @@
-package com.test.mvvm
+package com.test.mvvm_practice_sql
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.test.mvvm.databinding.ActivityAddBinding
-import com.test.mvvm.repository.Test1Repository
-import com.test.mvvm.vm.TestData
-import com.test.mvvm.vm.ViewModelTest2
+import com.test.mvvm_practice_sql.databinding.ActivityAddBinding
+import com.test.mvvm_practice_sql.repository.Test1Repository
+import com.test.mvvm_practice_sql.vm.TestData
+import com.test.mvvm_practice_sql.vm.ViewModelTest2
 
 class AddActivity : AppCompatActivity() {
 
@@ -21,24 +21,17 @@ class AddActivity : AppCompatActivity() {
         activityAddBinding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(activityAddBinding.root)
 
-        // ViewModel을 받아온다.
         viewModelTest2 = ViewModelProvider(MainActivity.mainActivity)[ViewModelTest2::class.java]
 
         activityAddBinding.run{
             buttonAdd.run{
                 setOnClickListener {
-
                     val data1 = editTextAddData1.text.toString()
                     val data2 = editTextAddData2.text.toString()
 
                     val t1 = TestData(0, data1, data2)
 
-                    // ViewModel객체의 리스트에 담아준다.
-                    // viewModelTest2.dataList.value?.add(t1)
-                    // viewModelTest2.addItem(t1)
-
-                    // 데이터베이스에 저장한다.
-                    Test1Repository.addData(this@AddActivity, t1)
+                    Test1Repository.addData(this@AddActivity,t1)
 
                     finish()
                 }

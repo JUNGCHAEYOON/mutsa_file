@@ -1,50 +1,47 @@
-package com.test.mvvm
+package com.test.mvvm_practice_sql
 
 import android.content.Intent
+import android.inputmethodservice.Keyboard.Row
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.test.mvvm.databinding.ActivityAddBinding
-import com.test.mvvm.databinding.ActivityMainBinding
-import com.test.mvvm.databinding.RowBinding
-import com.test.mvvm.vm.ViewModelTest1
-import com.test.mvvm.vm.ViewModelTest2
+import com.test.mvvm_practice_sql.databinding.ActivityMainBinding
+import com.test.mvvm_practice_sql.databinding.RowBinding
+import com.test.mvvm_practice_sql.vm.ViewModelTest1
+import com.test.mvvm_practice_sql.vm.ViewModelTest2
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var activityMainBinding: ActivityMainBinding
 
-    // ViewModel
-    lateinit var viewModelTest1:ViewModelTest1
-    lateinit var viewModelTest2:ViewModelTest2
-
+    // 뷰모델에서 사용할 context 객체
     companion object{
-        lateinit var mainActivity:MainActivity
+        lateinit var mainActivity: MainActivity
     }
+
+    // 뷰모델 객체
+    lateinit var viewModelTest1 : ViewModelTest1
+    lateinit var viewModelTest2 : ViewModelTest2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        // 뷰모델에서 사용할 context 객체 초기화
         mainActivity = this
 
-        // ViewModel 객체를 받아온다.
-        viewModelTest1 = ViewModelProvider(this)[ViewModelTest1::class.java]
-        viewModelTest2 = ViewModelProvider(this)[ViewModelTest2::class.java]
-
+        // 뷰모델 객체 받아오기
+        viewModelTest1 = ViewModelProvider(this@MainActivity)[ViewModelTest1::class.java]
+        viewModelTest2 = ViewModelProvider(this@MainActivity)[ViewModelTest2::class.java]
 
         activityMainBinding.run{
-
             buttonMain.setOnClickListener {
                 val newIntent = Intent(this@MainActivity, AddActivity::class.java)
                 startActivity(newIntent)
@@ -56,32 +53,32 @@ class MainActivity : AppCompatActivity() {
                 addItemDecoration(MaterialDividerItemDecoration(this@MainActivity, MaterialDividerItemDecoration.VERTICAL))
             }
 
-            viewModelTest2.run{
-                dataList.observe(this@MainActivity){
-                    recyclerViewMain.adapter?.notifyDataSetChanged()
-                }
+            // onResume 에서 datalist 값 변경시 observe 함수가 인지하여 recyclerview change
+            viewModelTest2.dataList.observe(this@MainActivity){
+                recyclerViewMain.adapter?.notifyDataSetChanged()
             }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 뷰모델 동기화 화면이 메인으로 돌아올때 데이터 만 바꿔주면 뷰에 반영됨
+        viewModelTest2.getAll()
+    }
+
     inner class MainRecyclerAdapter : RecyclerView.Adapter<MainRecyclerAdapter.MainViewHolder>(){
-        inner class MainViewHolder(rowBinding: RowBinding) : RecyclerView.ViewHolder(rowBinding.root){
-            var textViewRow:TextView
+        inner class MainViewHolder(rowBinding : RowBinding) : RecyclerView.ViewHolder(rowBinding.root){
+            var textViewRow : TextView
 
             init{
                 textViewRow = rowBinding.textViewRow
 
-                rowBinding.root.setOnClickListener {
+                rowBinding.root.setOnClickListener{
                     val newIntent = Intent(this@MainActivity, ResultActivity::class.java)
 
-                    // 값을 가지고 있는 객체를 추출한다.
                     val t1 = viewModelTest2.dataList.value?.get(adapterPosition)
 
-                    newIntent.putExtra("testIdx", t1?.idx)
-
-//                    // ViewModel 객체에 새로운 값을 설정한다.
-//                    viewModelTest1.data1.value = t1?.data1!!
-//                    viewModelTest1.data2.value = t1?.data2!!
+                    newIntent.putExtra("testIdx",t1?.idx)
 
                     startActivity(newIntent)
                 }
@@ -107,11 +104,5 @@ class MainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
             holder.textViewRow.text = viewModelTest2.dataList.value?.get(position)?.data1
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // ViewModel 에 있는 모든 데이터를 가져오는 메서드를 호출한다.
-        viewModelTest2.getAll()
     }
 }
