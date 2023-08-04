@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.BoardProject_practice" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 내 커스텀 -->
+        <item name="colorPrimary">#E68EC9</item>
+        <!--상단 상태바 색상-->
+        <item name="colorPrimaryDark">#E3DEE1</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.BoardProject_practice" parent="Base.Theme.BoardProject_practice" />
+
+    <!-- 툴바의 테마 -->
+    <style name = "Theme.BoardProject_practice.Toolbar" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="colorPrimary">#E3DEE1</item>
+    </style>
+
+    <!-- splash screen -->
+    <style name = "AppTheme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#E68EC9</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/app_icon_round</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.BoardProject_practice</item>
+    </style>
+</resources>
