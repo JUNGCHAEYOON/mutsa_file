@@ -6,13 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.test.mini02_boardproject02.databinding.FragmentPostReadBinding
+import com.test.mini02_boardproject02.vm.PostViewModel
 
 
 class PostReadFragment : Fragment() {
 
     lateinit var fragmentPostReadBinding: FragmentPostReadBinding
     lateinit var mainActivity: MainActivity
+
+    lateinit var postViewModel: PostViewModel
+
+    // 게시글 인덱스번호를 받는다.
+    var readPostIdx = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,6 +29,31 @@ class PostReadFragment : Fragment() {
 
         fragmentPostReadBinding = FragmentPostReadBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        postViewModel = ViewModelProvider(mainActivity)[PostViewModel::class.java]
+        postViewModel.run{
+            postSubject.observe(mainActivity){
+                fragmentPostReadBinding.textInputEditTextPostReadSubject.setText(it)
+            }
+            postText.observe(mainActivity){
+                fragmentPostReadBinding.textInputEditTextPostReadText.setText(it)
+            }
+            postNickname.observe(mainActivity){
+                fragmentPostReadBinding.textInputEditTextPostReadNickname.setText(it)
+            }
+            postWriteDate.observe(mainActivity){
+                fragmentPostReadBinding.textInputEditTextPostReadWriteDate.setText(it)
+            }
+            postFileName.observe(mainActivity){
+                if(it == "None"){
+                    fragmentPostReadBinding.imageViewPostRead.visibility = View.GONE
+                }
+            }
+            postImage.observe(mainActivity){
+                fragmentPostReadBinding.imageViewPostRead.visibility = View.VISIBLE
+                fragmentPostReadBinding.imageViewPostRead.setImageBitmap(it)
+            }
+        }
 
         fragmentPostReadBinding.run{
             toolbarPostRead.run{
@@ -64,7 +96,20 @@ class PostReadFragment : Fragment() {
                 setTextColor(Color.BLACK)
             }
 
+            textInputEditTextPostReadNickname.run{
+                setTextColor(Color.BLACK)
+            }
+
+            textInputEditTextPostReadWriteDate.run{
+                setTextColor(Color.BLACK)
+            }
+
         }
+
+        // 게시글 인덱스 번호를 받는다.
+        readPostIdx = arguments?.getLong("readPostIdx")!!
+        // 게시글 정보를 가져온다.
+        postViewModel.setPostReadData(readPostIdx.toDouble())
 
         return fragmentPostReadBinding.root
     }

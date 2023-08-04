@@ -1,5 +1,6 @@
 package com.test.mini02_boardproject02
 
+import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
@@ -8,6 +9,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -18,7 +20,6 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.test.mini02_boardproject02.databinding.ActivityMainBinding
 import kotlin.concurrent.thread
-import android.Manifest
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,10 +60,11 @@ class MainActivity : AppCompatActivity() {
         // splashScreenCustomizing(splashScreen)
 
         // SystemClock.sleep(3000)
-        requestPermissions(permissionList, 0)
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        requestPermissions(permissionList, 0)
 
         replaceFragment(LOGIN_FRAGMENT, false, null)
     }
@@ -173,7 +175,7 @@ class MainActivity : AppCompatActivity() {
     fun showSoftInput(view:View){
         view.requestFocus()
 
-        val inputMethodManger = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         thread {
             SystemClock.sleep(200)
             inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
@@ -202,7 +204,6 @@ data class PostDataClass(var postIdx:Long,              // 게시글 인덱스 �
                          var postWriteDate:String,      // 작성일
                          var postImage:String,          // 첨부이미지 파일 이름
                          var postWriterIdx:Long)        // 작성자 인덱스 번호
-
 
 
 

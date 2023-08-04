@@ -1,23 +1,27 @@
 package com.test.mini02_boardproject02
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.test.mini02_boardproject02.databinding.FragmentPostListBinding
 import com.test.mini02_boardproject02.databinding.RowPostListBinding
+import com.test.mini02_boardproject02.vm.PostViewModel
 
 
 class PostListFragment : Fragment() {
 
     lateinit var fragmentPostListBinding: FragmentPostListBinding
     lateinit var mainActivity: MainActivity
-    lateinit var boardMainFragment: BoardMainFragment
+
+    lateinit var postViewModel: PostViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +30,13 @@ class PostListFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentPostListBinding = FragmentPostListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        postViewModel = ViewModelProvider(mainActivity)[PostViewModel::class.java]
+        postViewModel.run{
+            postDataList.observe(mainActivity){
+                fragmentPostListBinding.recyclerViewPostListAll.adapter?.notifyDataSetChanged()
+            }
+        }
 
         fragmentPostListBinding.run{
             
@@ -57,6 +68,9 @@ class PostListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
+
+            // 게시판 타입 번호를 전달하여 게시글 정보를 가져온다.
+            postViewModel.getPostAll(arguments?.getLong("postType")!!)
         }
 
         return fragmentPostListBinding.root
@@ -72,6 +86,14 @@ class PostListFragment : Fragment() {
             init{
                 rowPostListSubject = rowPostListBinding.rowPostListSubject
                 rowPostListNickName = rowPostListBinding.rowPostListNickName
+
+                rowPostListBinding.root.setOnClickListener {
+                    // 항목 번째 글 번호를 가져온다.
+                    val readPostIdx = postViewModel.postDataList.value?.get(adapterPosition)?.postIdx
+                    val newBundle = Bundle()
+                    newBundle.putLong("readPostIdx", readPostIdx!!)
+                    mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT, true, newBundle)
+                }
             }
         }
 
@@ -84,20 +106,16 @@ class PostListFragment : Fragment() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-            rowPostListBinding.root.setOnClickListener {
-                mainActivity.replaceFragment(MainActivity.POST_READ_FRAGMENT, true, null)
-            }
-
             return allViewHolder
         }
 
         override fun getItemCount(): Int {
-            return 100
+            return postViewModel.postDataList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
-            holder.rowPostListSubject.text = "제목입니다 : $position"
-            holder.rowPostListNickName.text = "작성자 : $position"
+            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
+            // holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 
@@ -132,12 +150,12 @@ class PostListFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return 100
+            return postViewModel.postDataList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-            holder.rowPostListSubject.text = "제목입니다 : $position"
-            holder.rowPostListNickName.text = "작성자 : $position"
+            holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
+            holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 }
