@@ -8,20 +8,18 @@ import com.test.boardproject_practice.MODEL.DATA.UserClass
 import com.test.boardproject_practice.databinding.ActivityMainBinding
 import android.Manifest
 import android.content.Context
-import android.os.Build
 import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.test.boardproject_practice.VIEW.LOGIN.JoinFragment
 import com.test.boardproject_practice.VIEW.LOGIN.LoginFragment
-import com.test.boardproject_practice.VIEW.MAIN.AddUserInfoFragment
+import com.test.boardproject_practice.VIEW.LOGIN.AddUserInfoFragment
 import com.test.boardproject_practice.VIEW.MAIN.BoardMainFragment
-import com.test.boardproject_practice.VIEW.MAIN.POST.PostModifyFragment
-import com.test.boardproject_practice.VIEW.MAIN.POST.PostReadFragment
-import com.test.boardproject_practice.VIEW.MAIN.POST.PostWriteFragment
+import com.test.boardproject_practice.VIEW.POST.PostModifyFragment
+import com.test.boardproject_practice.VIEW.POST.PostReadFragment
+import com.test.boardproject_practice.VIEW.POST.PostWriteFragment
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {

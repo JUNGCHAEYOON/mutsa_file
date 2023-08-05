@@ -1,60 +1,142 @@
 package com.test.boardproject_practice.VIEW.LOGIN
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.test.boardproject_practice.MainActivity
 import com.test.boardproject_practice.R
+import com.test.boardproject_practice.VIEW_MODEL.UserViewModel
+import com.test.boardproject_practice.databinding.FragmentJoinBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [JoinFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class JoinFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var fragmentJoinBinding: FragmentJoinBinding
+    lateinit var mainActivity: MainActivity
+
+    // 뷰모델 객체 생성
+    lateinit var userViewModel : UserViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join, container, false)
-    }
+        fragmentJoinBinding = FragmentJoinBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment JoinFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            JoinFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        // 뷰모델 객체 초기화
+        userViewModel = ViewModelProvider(mainActivity)[UserViewModel::class.java]
+        userViewModel.run{
+            userId.observe(mainActivity){
+                fragmentJoinBinding.tietJoinId.setText(it)
+            }
+            userPw.observe(mainActivity){
+                fragmentJoinBinding.tietJoinPw.setText(it)
+            }
+            userPw2.observe(mainActivity){
+                fragmentJoinBinding.tietJoinPw2.setText(it)
+            }
+        }
+
+        // 뷰바인딩
+        fragmentJoinBinding.run{
+            tbJoin.run{
+                title = "회원가입"
+                setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material)
+                setNavigationOnClickListener {
+                    mainActivity.removeFragment(MainActivity.JOIN)
                 }
             }
+
+            btnJoinNext.run{
+                setOnClickListener {
+                    next()
+                }
+            }
+
+            tietJoinPw2.run{
+                setOnEditorActionListener { v, actionId, event ->
+                    next()
+                    true
+                }
+            }
+        }
+
+        return fragmentJoinBinding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.reset()
+    }
+
+    fun next(){
+        fragmentJoinBinding.run{
+
+            // 입력한 내용을 가져온다.
+            val joinUserId = tietJoinId.text.toString()
+            val joinUserPw = tietJoinPw.text.toString()
+            val joinUserPw2 = tietJoinPw2.text.toString()
+
+            if(joinUserId.isEmpty()){
+                val builder = MaterialAlertDialogBuilder(mainActivity)
+                builder.setTitle("로그인 오류")
+                builder.setMessage("아이디를 입력해주세요")
+                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                    mainActivity.showSoftInput(tietJoinId)
+                }
+                builder.show()
+                return
+            }
+
+            if(joinUserPw.isEmpty()){
+                val builder = MaterialAlertDialogBuilder(mainActivity)
+                builder.setTitle("비빌번호 오류")
+                builder.setMessage("비밀번호를 입력해주세요")
+                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                    mainActivity.showSoftInput(tietJoinPw)
+                }
+                builder.show()
+                return
+            }
+
+            if(joinUserPw2.isEmpty()){
+                val builder = MaterialAlertDialogBuilder(mainActivity)
+                builder.setTitle("비빌번호 오류")
+                builder.setMessage("비밀번호를 입력해주세요")
+                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                    mainActivity.showSoftInput(tietJoinPw2)
+                }
+                builder.show()
+                return
+            }
+
+            if(joinUserPw != joinUserPw2){
+                val builder = MaterialAlertDialogBuilder(mainActivity)
+                builder.setTitle("비빌번호 오류")
+                builder.setMessage("비밀번호가 일치하지 않습니다.")
+                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                    tietJoinPw.setText("")
+                    tietJoinPw2.setText("")
+                    mainActivity.showSoftInput(tietJoinPw)
+                }
+                builder.show()
+                return
+            }
+
+            val newBundle = Bundle()
+            newBundle.putString("joinUserId", joinUserId)
+            newBundle.putString("joinUserPw", joinUserPw)
+
+            mainActivity.replaceFragment(MainActivity.ADD_USER_INFO, true, newBundle)
+        }
+    }
+
 }

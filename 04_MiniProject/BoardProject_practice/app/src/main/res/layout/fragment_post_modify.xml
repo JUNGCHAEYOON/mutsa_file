@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VIEW.MAIN.POST.PostModifyFragment">
+    tools:context=".VIEW.POST.PostModifyFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

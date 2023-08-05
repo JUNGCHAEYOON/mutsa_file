@@ -82,26 +82,8 @@ class LoginFragment : Fragment() {
             val loginUserPw = tietLoginPw.text.toString()
 
             // 빈칸일때 다이얼로그
-            if(loginUserId.isEmpty()){
-                val builder = MaterialAlertDialogBuilder(mainActivity)
-                builder.setTitle("로그인 오류")
-                builder.setMessage("아이디를 입력해주세요")
-                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
-                    mainActivity.showSoftInput(tietLoginId)
-                }
-                builder.show()
-                return
-            }
-            if(loginUserPw.isEmpty()){
-                val builder = MaterialAlertDialogBuilder(mainActivity)
-                builder.setTitle("비밀번호 오류")
-                builder.setMessage("비밀번호를 입력해주세요")
-                builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
-                    mainActivity.showSoftInput(tietLoginPw)
-                }
-                builder.show()
-                return
-            }
+            checkEmptyDialog(loginUserId, "로그인 오류", "아이디를 입력해주세요", tietLoginId)
+            checkEmptyDialog(loginUserPw, "비밀번호 오류", "비밀번호를 입력해주세요", tietLoginPw)
 
             // 빈칸아닐때
             UserRepository.getUserInfoByUserId(loginUserId){
@@ -157,6 +139,21 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    // empty check
+    fun checkEmptyDialog(editString : String, title : String, message : String, view: View){
+        // 빈칸일때 다이얼로그
+        if(editString.isEmpty()){
+            val builder = MaterialAlertDialogBuilder(mainActivity)
+            builder.setTitle(title)
+            builder.setMessage(message)
+            builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                mainActivity.showSoftInput(view)
+            }
+            builder.show()
+            return
         }
     }
 }
