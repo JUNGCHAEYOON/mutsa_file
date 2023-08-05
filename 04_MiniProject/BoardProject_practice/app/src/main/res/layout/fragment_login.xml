@@ -37,6 +37,7 @@
                     android:id="@+id/tiet_login_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text|textPersonName"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +55,7 @@
                     android:id="@+id/tiet_login_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
+                    android:inputType="text|textPassword"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 

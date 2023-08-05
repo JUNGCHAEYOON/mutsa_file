@@ -31,12 +31,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:hint="닉네임"
+                android:transitionGroup="true"
                 app:startIconDrawable="@drawable/ic_nickname_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_aui_nickname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -45,12 +48,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:hint="나이"
+                android:transitionGroup="true"
                 app:startIconDrawable="@drawable/ic_age_24px">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_aui_age"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.checkbox.MaterialCheckBox
@@ -62,6 +68,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
+                android:id="@+id/ll_aui_mcb_group1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp"
@@ -94,6 +101,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_aui_mcb_group2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="50dp"
