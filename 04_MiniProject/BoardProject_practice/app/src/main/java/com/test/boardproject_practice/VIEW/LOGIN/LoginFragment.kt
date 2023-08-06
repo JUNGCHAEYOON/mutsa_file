@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.test.boardproject_practice.MODEL.DATA.UserClass
 import com.test.boardproject_practice.MODEL.REPOSITORY.UserRepository
 import com.test.boardproject_practice.MainActivity
-import com.test.boardproject_practice.VIEW_MODEL.UserViewModel
+import com.test.boardproject_practice.MODEL.VIEW_MODEL.UserViewModel
 import com.test.boardproject_practice.databinding.FragmentLoginBinding
 
 

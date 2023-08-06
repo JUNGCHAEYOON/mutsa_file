@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.test.boardproject_practice.MainActivity
 import com.test.boardproject_practice.R
-import com.test.boardproject_practice.VIEW_MODEL.UserViewModel
+import com.test.boardproject_practice.MODEL.VIEW_MODEL.UserViewModel
 import com.test.boardproject_practice.databinding.FragmentJoinBinding
 
 

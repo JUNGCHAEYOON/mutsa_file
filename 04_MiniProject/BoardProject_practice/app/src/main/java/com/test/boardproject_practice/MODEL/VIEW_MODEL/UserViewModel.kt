@@ -1,4 +1,4 @@
-package com.test.boardproject_practice.VIEW_MODEL
+package com.test.boardproject_practice.MODEL.VIEW_MODEL
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

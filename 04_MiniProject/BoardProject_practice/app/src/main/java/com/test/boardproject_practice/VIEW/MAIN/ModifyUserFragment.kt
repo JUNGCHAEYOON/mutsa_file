@@ -1,60 +1,82 @@
 package com.test.boardproject_practice.VIEW.MAIN
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.test.boardproject_practice.MainActivity
 import com.test.boardproject_practice.R
+import com.test.boardproject_practice.databinding.FragmentModifyUserBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ModifyUserFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ModifyUserFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var fragmentModifyUserBinding: FragmentModifyUserBinding
+    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_modify_user, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ModifyUserFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ModifyUserFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        fragmentModifyUserBinding = FragmentModifyUserBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
+
+        fragmentModifyUserBinding.run{
+            buttonModifyUserAccept.run{
+                setOnClickListener {
+                    // 입력한 내용을 가져온다.
+                    val modifyUserPw1 = textInputEditTextModifyUserPw.text.toString()
+                    val modifyUserPw2 = textInputEditTextModifyUserPw2.text.toString()
+                    val modifyUserNickName = textInputEditTextModifyUserNickName.text.toString()
+                    val modifyUserAge = textInputEditTextModifyUserAge.text.toString()
+
+                    if(modifyUserPw1.isNotEmpty() || modifyUserPw2.isNotEmpty()){
+                        if(modifyUserPw1 != modifyUserPw2){
+                            val builder = MaterialAlertDialogBuilder(mainActivity)
+                            builder.setTitle("비빌번호 오류")
+                            builder.setMessage("비밀번호가 다릅니다.")
+                            builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                                textInputEditTextModifyUserPw.setText("")
+                                textInputEditTextModifyUserPw2.setText("")
+                                mainActivity.showSoftInput(textInputEditTextModifyUserPw)
+                            }
+                            builder.show()
+                            return@setOnClickListener
+                        }
+                    }
+
+                    if(modifyUserNickName.isEmpty()){
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setTitle("닉네임 입력 오류")
+                        builder.setMessage("닉네임을 입력해주세요")
+                        builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextModifyUserNickName)
+                        }
+                        builder.show()
+                        return@setOnClickListener
+                    }
+
+                    if(modifyUserAge.isEmpty()){
+                        val builder = MaterialAlertDialogBuilder(mainActivity)
+                        builder.setTitle("나이 입력 오류")
+                        builder.setMessage("나이를 입력해주세요")
+                        builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                            mainActivity.showSoftInput(textInputEditTextModifyUserAge)
+                        }
+                        builder.show()
+                        return@setOnClickListener
+                    }
                 }
             }
+        }
+
+        return fragmentModifyUserBinding.root
     }
+
+
 }
