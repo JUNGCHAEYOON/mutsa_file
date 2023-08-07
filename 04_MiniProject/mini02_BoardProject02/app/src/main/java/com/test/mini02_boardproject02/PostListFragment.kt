@@ -115,7 +115,7 @@ class PostListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
             holder.rowPostListSubject.text = postViewModel.postDataList.value?.get(position)?.postSubject
-            // holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
+            //holder.rowPostListNickName.text = postViewModel.postWriterNicknameList.value?.get(position)
         }
     }
 
