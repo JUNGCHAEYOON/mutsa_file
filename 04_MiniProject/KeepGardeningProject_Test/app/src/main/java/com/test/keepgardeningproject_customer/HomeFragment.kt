@@ -26,7 +26,8 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding.run{
             // 툴바
             toolbarHome.run{
-                setNavigationIcon(R.drawable.ic_hamburger)
+
+                setNavigationIcon(R.drawable.ic_menu_24px)
                 setNavigationOnClickListener {
                     drawerHome.open()
                 }
