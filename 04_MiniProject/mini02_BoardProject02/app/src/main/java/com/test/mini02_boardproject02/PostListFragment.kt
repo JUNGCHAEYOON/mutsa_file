@@ -86,7 +86,7 @@ class PostListFragment : Fragment() {
             }
 
             recyclerViewPostListResult.run{
-                adapter = AllREcyclerViewAdapter()
+                adapter = ResultRecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL))
             }
