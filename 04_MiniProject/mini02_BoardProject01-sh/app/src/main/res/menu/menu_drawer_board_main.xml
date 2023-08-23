@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/boardItem"
+        android:title="게시판">
+        <menu>
+            <item
+                android:id="@+id/item_board_main_all"
+                android:checkable="true"
+                android:icon="@drawable/apps_24px"
+                android:title="전체게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_free"
+                android:checkable="true"
+                android:icon="@drawable/groups_24px"
+                android:title="자유게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_gag"
+                android:checkable="true"
+                android:icon="@drawable/sentiment_very_satisfied_24px"
+                android:title="유머게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_qna"
+                android:checkable="true"
+                android:icon="@drawable/question_mark_24px"
+                android:title="질문게시판"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_sports"
+                android:checkable="true"
+                android:icon="@drawable/sports_soccer_24px"
+                android:title="스포츠게시판"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/userInfoItem"
+        android:title=" ">
+        <menu>
+            <item
+                android:id="@+id/item_board_main_user_info"
+                android:checkable="true"
+                android:icon="@drawable/manage_accounts_24px"
+                android:title="사용자 정보 수정"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_logout"
+                android:checkable="true"
+                android:icon="@drawable/logout_24px"
+                android:title="로그아웃"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/item_board_main_sign_out"
+                android:checkable="true"
+                android:icon="@drawable/cancel_24px"
+                android:title="회원탈퇴"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>
